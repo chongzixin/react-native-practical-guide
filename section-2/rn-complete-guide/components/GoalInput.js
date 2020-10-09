@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, TextInput, StyleSheet } from 'react-native';
+import { View, Button, TextInput, StyleSheet, Modal } from 'react-native';
 
 
 const GoalInput = props => {
@@ -9,23 +9,33 @@ const GoalInput = props => {
         setEnteredGoal(enteredText);
     };
 
+    const addGoalHandler = () => {
+        setEnteredGoal("");
+        props.onAddGoal(enteredGoal);
+    }
+
     return (
-        <View style={styles.add_course_goals}>
-            <TextInput
-            placeholder="Course Goal"
-            style={styles.textinput}
-            onChangeText={goalInputHandler}
-            value={enteredGoal}
-            />
-            <Button title="ADD" onPress={props.onAddGoal.bind(this, enteredGoal)} />
-        </View>
+        <Modal visible={props.visible} animationType="slide">
+            <View style={styles.add_course_goals}>
+                <TextInput
+                    placeholder="Course Goal"
+                    style={styles.textinput}
+                    onChangeText={goalInputHandler}
+                    value={enteredGoal}
+                />
+                <View style={styles.button_container}>
+                    <View style={styles.button}><Button title="ADD" onPress={addGoalHandler} /></View>
+                    <View style={styles.button}><Button title="CANCEL" color="red" onPress={props.onHideGoal} /></View>
+                </View>
+            </View>
+        </Modal>
     );
 };
 
 const styles = StyleSheet.create({
     add_course_goals: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center'
     },
 
@@ -36,6 +46,16 @@ const styles = StyleSheet.create({
         width: "80%",
         marginBottom: 10
     },
+
+    button_container: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "60%"
+    },
+
+    button: {
+        width: "40%"
+    }
 });
 
 export default GoalInput;
