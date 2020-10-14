@@ -1,17 +1,43 @@
 // page that shows meals for chosen category.
 
 import React from 'react';
-import { View, Text, StyleSheet, Button, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import MealItem from '../components/MealItem';
 
-import { CATEGORIES } from '../data/dummy-data';
+import { CATEGORIES, MEALS } from '../data/dummy-data';
 
 const CategoryMealsScreen = props => {
+    const renderMealItem = itemData => {
+        return (
+            <MealItem 
+                title={itemData.item.title} 
+                duration={itemData.item.duration}
+                complexity={itemData.item.complexity.toUpperCase()}
+                affordability={itemData.item.affordability.toUpperCase()}
+                image={itemData.item.imageUrl}
+                onSelectMeal={() => {
+                    props.navigation.navigate({
+                        routeName: 'MealDetail',
+                        params: {
+                            mealId: itemData.item.id
+                        },
+                    })
+                }}
+            />
+        );
+    };
+    
+    const catId = props.navigation.getParam('categoryId');
+
+    // filter all meals that have this category in their list
+    const displayedMeals = MEALS.filter(meal => meal.categoryIds.indexOf(catId) >= 0);
+
     return (
         <View style={styles.screen}>
-            <Text>The Category Meals Screen!</Text>
-            <Button title="Go to Details" onPress={() => {
-                props.navigation.navigate({ routeName:'MealDetail' });
-            }}/>
+            <FlatList 
+                data={displayedMeals}
+                renderItem={renderMealItem}
+            />
         </View>
     );
 };
@@ -22,10 +48,6 @@ CategoryMealsScreen.navigationOptions = navigationData => {
 
     return {
         headerTitle: selectedCategory.title,
-        headerStyle: {
-            backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : '',
-        },
-        headerTintColor: Platform.OS === 'android' ? 'white': Colors.primaryColor,
     };
 }
 
@@ -34,6 +56,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 15,
     }
 });
 
