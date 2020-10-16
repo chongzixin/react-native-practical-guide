@@ -1,9 +1,11 @@
 // page that shows meals for chosen category.
 
 import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import MealList from '../components/MealList';
+import DefaultText from '../components/DefaultText';
 
 import { CATEGORIES } from '../data/dummy-data';
 
@@ -14,7 +16,13 @@ const CategoryMealsScreen = props => {
     // filter all meals that have this category in their list
     const displayedMeals = availableMeals.filter(meal => meal.categoryIds.indexOf(catId) >= 0);
 
-    return <MealList listData={displayedMeals} navigation={props.navigation} />;
+    if (displayedMeals.length > 0) {
+        return <MealList listData={displayedMeals} navigation={props.navigation} />;
+    } else {
+        return <View style={styles.noContent}>
+            <DefaultText>No meals here, checked that you applied correct filters.</DefaultText>
+        </View>
+    }
 };
 
 CategoryMealsScreen.navigationOptions = navigationData => {
@@ -25,5 +33,13 @@ CategoryMealsScreen.navigationOptions = navigationData => {
         headerTitle: selectedCategory.title,
     };
 }
+
+const styles = StyleSheet.create({
+    noContent: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    }
+});
 
 export default CategoryMealsScreen;

@@ -1,5 +1,5 @@
 import { MEALS } from '../../data/dummy-data';
-import { TOGGLE_FAVOURITE } from '../actions/meals';
+import { TOGGLE_FAVOURITE, SET_FILTERS } from '../actions/meals';
 
 const initialState = {
     meals: MEALS,
@@ -25,6 +25,21 @@ const mealsReducer = (state = initialState, action) => {
                 const meal = state.meals.find(meal => meal.id === action.mealId);
                 return { ...state, favouriteMeals: state.favouriteMeals.concat(meal)};
             }
+        case SET_FILTERS:
+            // return only the meals where the filters have been applied.
+            const appliedFilters = action.filters;
+            const updatedFilteredMeals = state.meals.filter(meal => {
+                // filter() goes through each object in the array, we put in logic and return true if we want it in the array, else we return false
+                // e.g. over here we check if the user wanted glutenFree and if the meal is NOT glutenfree, we exclude it from the resulting array.
+
+                if (appliedFilters.glutenFree && !meal.isGlutenFree) return false;
+                if (appliedFilters.lactoseFree && !meal.isLactoseFree) return false;
+                if (appliedFilters.vegetarian && !meal.isVegetarian) return false;
+                if (appliedFilters.vegan && !meal.isVegan) return false;
+
+                return true;
+            });
+            return { ...state, filteredMeals: updatedFilteredMeals }
         default:
             return state;
     }

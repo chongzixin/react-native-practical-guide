@@ -1,13 +1,15 @@
 // filters like gluten free, vegan etc.
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Switch, Platform } from 'react-native';
+import { View, StyleSheet, Switch, Platform } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import DefaultText from '../components/DefaultText';
 import HeaderButton from '../components/HeaderButton';
 
 import Colors from '../constants/Colors';
+import { setFilters } from '../store/actions/meals';
 
 const FilterSwitch = props => {
     return (
@@ -30,6 +32,8 @@ const FiltersScreen = props => {
     const [isVegetarian, setIsVegetarian] = useState(false);
     const [isLactoseFree, setIsLactoseFree] = useState(false);
 
+    const dispatch = useDispatch();
+
     // function that gathers all the current filter settings so that it can be passed to the navigation option via useEffect
     const saveFilters = useCallback(() => {
         const appliedFilters = {
@@ -39,8 +43,8 @@ const FiltersScreen = props => {
             lactoseFree: isLactoseFree,
         }
 
-        console.log(appliedFilters);
-    }, [isGlutenFree, isVegetarian, isVegetarian, isLactoseFree]);
+        dispatch(setFilters(appliedFilters));
+    }, [isGlutenFree, isVegetarian, isVegetarian, isLactoseFree, dispatch]);
 
     useEffect(() => {
         navigation.setParams({save: saveFilters});
