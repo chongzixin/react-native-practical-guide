@@ -1,10 +1,15 @@
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import MealItem from './MealItem';
 
 const MealList = props => {
+    // useSelector can only be used in root level of component function. so cant put it below.
+    const favouriteMeals = useSelector(state => state.meals.favouriteMeals);
+
     const renderMealItem = itemData => {
+        const isFavourite = favouriteMeals.some(meal => meal.id === itemData.item.id);
         return (
             <MealItem 
                 title={itemData.item.title} 
@@ -18,6 +23,7 @@ const MealList = props => {
                         params: {
                             mealId: itemData.item.id,
                             mealTitle: itemData.item.title,
+                            isFav: isFavourite,
                         },
                     })
                 }}

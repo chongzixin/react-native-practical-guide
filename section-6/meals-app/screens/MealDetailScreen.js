@@ -1,7 +1,7 @@
 // screen that shows details of selected meal like ingredients and recipe
 
 import React, { useEffect, useCallback } from 'react';
-import { ScrollView, View, Text, StyleSheet, Image } from 'react-native';
+import { ScrollView, View, StyleSheet, Image } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -21,6 +21,10 @@ const ListItem = props => {
 const MealDetailScreen = props => {
     const mealId = props.navigation.getParam('mealId');
     const availableMeals = useSelector(state => state.meals.meals);
+    const currentMealIsFavourite = useSelector(state => (
+        // check whether this mealId is inside list of favourites.
+        state.meals.favouriteMeals.some(meal => meal.id === mealId)
+    ));
     const selectedMeal = availableMeals.find(meal => meal.id === mealId);
     
     // this is used to execute an action to redux store
@@ -33,6 +37,10 @@ const MealDetailScreen = props => {
     useEffect(() => {
         props.navigation.setParams({toggleFav: toggleFavouriteHandler});
     }, [toggleFavouriteHandler]);
+
+    useEffect(() => {
+        props.navigation.setParams({isFav: currentMealIsFavourite});
+    }, [currentMealIsFavourite]);
 
     return (
         <ScrollView>
@@ -54,11 +62,16 @@ const MealDetailScreen = props => {
 MealDetailScreen.navigationOptions = navigationData => {
     const mealTitle = navigationData.navigation.getParam('mealTitle');
     const toggleFavourite = navigationData.navigation.getParam('toggleFav');
+    const isFavourite = navigationData.navigation.getParam('isFav');
 
     const headerRightButton = () => {
         return (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                <Item title='Favourite' iconName='ios-star' onPress={toggleFavourite}/>
+                <Item 
+                    title='Favourite' 
+                    iconName={isFavourite ? 'ios-star' : 'ios-star-outline'} 
+                    onPress={toggleFavourite}
+                />
             </HeaderButtons>
         );
     };
