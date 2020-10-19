@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { TouchableOpacity, View, Text, StyleSheet, Platform } from 'react-native';
 
 import MapView, { Marker } from 'react-native-maps';
+import Colors from '../constants/Colors';
 
 const MapScreen = props => {
     const [selectedLocation, setSelectedLocation] = useState();
@@ -19,6 +20,18 @@ const MapScreen = props => {
             lng: event.nativeEvent.coordinate.longitude,
         });
     };
+
+    const savePickedLocationHandler = useCallback(() => {
+        if(!selectedLocation)
+            return;
+
+        // navigate back to the previous page. we use navigate here instead of goBack because the former allows us to set params
+        props.navigation.navigate('NewPlace', {pickedLocation: selectedLocation});
+    }, [selectedLocation]);
+
+    useEffect(() => {
+        props.navigation.setParams({saveLocation: savePickedLocationHandler})
+    }, [savePickedLocationHandler]);
 
     let markerCoordinates;
     if(selectedLocation) {
@@ -40,10 +53,28 @@ const MapScreen = props => {
     )
 };
 
+MapScreen.navigationOptions = navData => {
+    const saveFn = navData.navigation.getParam('saveLocation');
+    return {
+        headerRight: (
+            <TouchableOpacity style={styles.headerButton} onPress={saveFn}>
+                <Text style={styles.headerButtonText}>Save</Text>
+            </TouchableOpacity>
+        )
+    };
+};
+
 const styles = StyleSheet.create({
     map: {
         flex: 1,
-    }
+    },
+    headerButton: {
+        marginHorizontal: 20,
+    },
+    headerButtonText: {
+        fontSize: 16,
+        color: Platform.OS === 'android' ? 'white' : Colors.primary
+    },
 });
 
 export default MapScreen;
