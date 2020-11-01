@@ -1,19 +1,21 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, TouchableOpacity, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, Button, TouchableOpacity, Image } from 'react-native';
 
 const Product = props => {
+    // TODO: go to details page
+    // TODO: add to cart
     return (
         <View style={styles.productLineItem}>
             <View>
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={props.goToDetails}>
                     <View style={{...styles.productRow, ...styles.productHeader}}>
-                        <ImageBackground source={{uri:props.image}} style={styles.bgImage} />
+                        <Image source={{uri:props.image}} style={styles.bgImage} />
                     </View>
                 </TouchableOpacity>
                 <View style={{...styles.productRow, ...styles.productDetail}}>
-                    <Button title="Details" onPress={() => {}}/>
+                    <Button title="Details" onPress={props.goToDetails}/>
                     <Text style={styles.priceText}>Price: ${props.price}</Text>
-                    <Button title="Cart" onPress={() => {}}/>
+                    <Button title="Cart" onPress={props.addToCart}/>
                 </View>
             </View>
         </View>

@@ -2,33 +2,25 @@ import React from 'react';
 import { View, Text, StyleSheet, Button, FlatList } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import ProductItem from '../components/Product';
+import ProductList from '../components/ProductList';
 import HeaderButton from '../components/HeaderButton';
 
 import Product from '../models/product';
 
 const TEST_DATA = [
-    new Product(1, "Item 1", 10, "someurl"),
-    new Product(2, "Item 2", 20, "someurl"),
-    new Product(3, "Item 3", 30, "someurl"),
-    new Product(4, "Item 4", 40, "someurl"),
-    new Product(5, "Item 5", 50, "someurl"),
+    new Product(1, "Item 1", 10, "someurl", "Description of Item 1"),
+    new Product(2, "Item 2", 20, "someurl", "Description of Item 2"),
+    new Product(3, "Item 3", 30, "someurl", "Description of Item 3"),
+    new Product(4, "Item 4", 40, "someurl", "Description of Item 4"),
+    new Product(5, "Item 5", 50, "someurl", "Description of Item 5"),
 ]
 
 const ProductsOverviewScreen = props => {
-    const renderItem = item => {
-        console.log(item);
-        return (
-            <ProductItem price={item.item.price}/>
-        );
-    };
-
     return (
         <View style={styles.screen}>
-            <FlatList
+            <ProductList
                 data={TEST_DATA}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
+                navigation={props.navigation}
             />
         </View>
     );
