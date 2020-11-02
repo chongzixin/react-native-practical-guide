@@ -5,10 +5,11 @@ const ProductDetailsScreen = props => {
     const productId = props.navigation.getParam('productId');
     const price = props.navigation.getParam('price');
     const description = props.navigation.getParam('description');
+    const image = props.navigation.getParam('image');
 
     return (
         <ScrollView>
-            <Image style={styles.image} />
+            <Image source={{uri:image}} style={styles.image} />
             <View style={styles.container}>
                 <Text>ID: {productId}</Text>
                 <Text>Price: ${price}</Text>
@@ -28,7 +29,7 @@ ProductDetailsScreen.navigationOptions = navigationData => {
 
 const styles = StyleSheet.create({
     image: {
-        height: 200,
+        height: 500,
         width: '100%',
     },
     container: {

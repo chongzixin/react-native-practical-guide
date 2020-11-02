@@ -9,7 +9,7 @@ const Product = props => {
             <View>
                 <TouchableOpacity onPress={props.goToDetails}>
                     <View style={{...styles.productRow, ...styles.productHeader}}>
-                        <Image source={{uri:props.image}} style={styles.bgImage} />
+                        <Image source={{uri:props.image}} style={styles.image} />
                     </View>
                 </TouchableOpacity>
                 <View style={{...styles.productRow, ...styles.productDetail}}>
@@ -25,29 +25,26 @@ const Product = props => {
 const styles = StyleSheet.create({
     productLineItem: {
         width: '100%',
-        height: 200,
+        height: 250,
         backgroundColor: '#ccc',
         borderRadius: 10,
         marginVertical: 10,
-        paddingHorizontal: 10,
         overflow: "hidden",
     },
     productRow: {
         flexDirection: "row",
     },
     productHeader: {
-        width: '100%',
         height: '80%',
     },
     productDetail: {
-        width: '100%',
         height: '20%',
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        backgroundColor: 'white',
     },
-    bgImage: {
+    image: {
         width: '100%',
-        height: '100%',
-        justifyContent: 'flex-end'
+        height: '130%', // a bit hackish, but fix next time.
     },
     priceText: {
         paddingVertical: 10,
