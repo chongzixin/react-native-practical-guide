@@ -2,8 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Text, Button, TouchableOpacity, Image } from 'react-native';
 
 const Product = props => {
-    // TODO: go to details page
-    // TODO: add to cart
     return (
         <View style={styles.productLineItem}>
             <View>

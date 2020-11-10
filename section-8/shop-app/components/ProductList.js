@@ -1,24 +1,33 @@
 import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../store/shop-action';
 
 import ProductItem from '../components/ProductItem';
 
 const ProductList = props => {
+    const dispatch = useDispatch();
+
+    const addToCartHandler = id => {
+        console.log("added to cart");
+        dispatch(addToCart(id))
+    };
+    
+    const navigateToDetailsHandler = id => {
+        props.navigation.navigate({
+            routeName: 'ProductDetails',
+            params: {
+                productId: id,
+            },
+        })
+    }
+
     const renderItem = itemData => (
         <ProductItem
             image={itemData.item.image}
             price={itemData.item.price}
-            addToCart={() => {
-                console.log("added to cart");
-            }}
-            goToDetails={() => {
-                props.navigation.navigate({
-                    routeName: 'ProductDetails',
-                    params: {
-                        productId: itemData.item.id,
-                    },
-                })
-            }}
+            addToCart={addToCartHandler.bind(this, itemData.item.id)}
+            goToDetails={navigateToDetailsHandler.bind(this, itemData.item.id)}
         />
     );
 
