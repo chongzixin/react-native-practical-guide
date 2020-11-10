@@ -16,10 +16,6 @@ const ProductList = props => {
                     routeName: 'ProductDetails',
                     params: {
                         productId: itemData.item.id,
-                        productTitle: itemData.item.title,
-                        description: itemData.item.description,
-                        price: itemData.item.price,
-                        image: itemData.item.image,
                     },
                 })
             }}

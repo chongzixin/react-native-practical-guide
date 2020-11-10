@@ -1,19 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, Button } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const ProductDetailsScreen = props => {
     const productId = props.navigation.getParam('productId');
-    const price = props.navigation.getParam('price');
-    const description = props.navigation.getParam('description');
-    const image = props.navigation.getParam('image');
+
+    // find the correct object from the redux store
+    const allProducts = useSelector(state => state.shop.productsList);
+    const chosenProduct = allProducts.find(product => product.id === productId);
 
     return (
         <ScrollView>
-            <Image source={{uri:image}} style={styles.image} />
+            <Image source={{uri:chosenProduct.image}} style={styles.image} />
             <View style={styles.container}>
-                <Text>ID: {productId}</Text>
-                <Text>Price: ${price}</Text>
-                <Text>{description}</Text>
+                <Text>ID: {chosenProduct.id}</Text>
+                <Text>Price: ${chosenProduct.price}</Text>
+                <Text>{chosenProduct.description}</Text>
                 <Button title="Add To Cart" />
             </View>
         </ScrollView>

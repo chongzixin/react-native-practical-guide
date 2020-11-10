@@ -7,6 +7,7 @@ import ProductList from '../components/ProductList';
 import HeaderButton from '../components/HeaderButton';
 
 const ProductsOverviewScreen = props => {
+    // read from the redux store
     const all_products = useSelector(state => state.shop.productsList);
 
     return (
