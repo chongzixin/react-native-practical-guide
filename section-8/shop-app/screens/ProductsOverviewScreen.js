@@ -1,18 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, FlatList } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { useSelector } from 'react-redux';
 
 import ProductList from '../components/ProductList';
 import HeaderButton from '../components/HeaderButton';
 
-import Product from '../models/product';
-import TEST_DATA from '../data/dummy-data';
-
 const ProductsOverviewScreen = props => {
+    const all_products = useSelector(state => state.shop.productsList);
+
     return (
         <View style={styles.screen}>
             <ProductList
-                data={TEST_DATA}
+                data={all_products}
                 navigation={props.navigation}
             />
         </View>
