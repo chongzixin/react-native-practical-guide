@@ -13,10 +13,11 @@ class Cart {
     }
 
     static calculateTotal(currentCart) {
-        return currentCart.reduce((total, cartItem) => {
+        const grandTotal = currentCart.reduce((total, cartItem) => {
             const currentItem = PRODUCTS.find(product => product.id === cartItem.id);
             return total += (currentItem.price * cartItem.quantity); 
         }, 0);
+        return grandTotal.toFixed(2);
     }
 };
 
