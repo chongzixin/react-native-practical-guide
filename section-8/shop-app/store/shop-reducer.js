@@ -23,7 +23,9 @@ const addToCart = (currentCart, itemId) => {
 const shopReducer = (state = initialState, action) => {
     switch(action.type) {
         case ADD_TO_CART:
-            return {...state, cart: addToCart(state.cart, action.productId)};
+            const newState = {...state, cart: addToCart(state.cart, action.productId)};
+            console.log(newState.cart);
+            return newState;
         default:
             return state;
     }

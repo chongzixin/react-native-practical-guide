@@ -9,8 +9,7 @@ const ProductList = props => {
     const dispatch = useDispatch();
 
     const addToCartHandler = id => {
-        console.log("added to cart");
-        dispatch(addToCart(id))
+        dispatch(addToCart(id));
     };
     
     const navigateToDetailsHandler = id => {
