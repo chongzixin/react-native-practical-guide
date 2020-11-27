@@ -12,6 +12,10 @@ class Cart {
         return currentCart;
     }
 
+    static removeFromCart(currentCart, itemId) {
+        return currentCart.filter( item => item.id !== itemId);
+    }
+
     static calculateTotal(currentCart) {
         const grandTotal = currentCart.reduce((total, cartItem) => {
             const currentItem = PRODUCTS.find(product => product.id === cartItem.id);
